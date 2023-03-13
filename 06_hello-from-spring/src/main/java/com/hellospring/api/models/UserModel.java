@@ -1,5 +1,7 @@
 package com.hellospring.api.models;
 
+import java.util.Date;
+
 import com.hellospring.api.dtos.UserDTO;
 
 import jakarta.persistence.Column;
@@ -19,7 +21,9 @@ public class UserModel {
   public UserModel(UserDTO data) {
     this.name = data.name();
     this.lastname = data.lastname();
-    this.age = data.age();
+    this.birthdate = data.birthdate();
+    this.phone = data.phone();
+    this.email = data.email();
   }
 
   @Id
@@ -33,5 +37,11 @@ public class UserModel {
   private String lastname;
 
   @Column(nullable = false)
-  private int age;
+  private Date birthdate;
+
+  @Column(length = 50, nullable = false)
+  private String phone;
+
+  @Column(length = 50, nullable = false)
+  private String email;
 }

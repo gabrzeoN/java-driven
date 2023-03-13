@@ -18,7 +18,7 @@ public class CarModel {
 
   public CarModel(CarDTO data) {
     this.model = data.model();
-    this.year = data.year();
+    this.age = data.age();
   }
 
   @Id
@@ -28,6 +28,6 @@ public class CarModel {
   @Column(length = 50, nullable = false)
   private String model;
 
-  @Column(nullable = false)
-  private int year;
+  @Column( nullable = false)
+  private int age;
 }

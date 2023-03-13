@@ -21,13 +21,14 @@ public class CarController {
   private CarRepository repository;
 
   @GetMapping
-  public List<CarModel> listAll(){
+  public List<CarModel> listCarAll(){
     List<CarModel> cars = repository.findAll();
+    System.out.println(cars);
     return cars;
   }
 
   @PostMapping
-  public void create(@RequestBody CarDTO req){
+  public void createCar(@RequestBody CarDTO req){
     repository.save(new CarModel(req));
     System.out.println(new CarModel(req));
     System.out.println(req);
