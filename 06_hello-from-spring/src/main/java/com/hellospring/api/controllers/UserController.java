@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,4 +51,17 @@ public class UserController {
     return;
   }
 
+  @PutMapping("/{id}")
+  public void update(@PathVariable Long id, @RequestBody @Valid UserDTO req){
+    repository.findById(id).map(user -> {
+      user.setName(req.name());
+      user.setLastname(req.lastname());
+      user.setEmail(req.email());
+      user.setBirthdate(req.birthdate());
+      user.setPhone(req.phone());
+      UserModel userUpdated = repository.save(user);
+      return userUpdated;
+    });
+    return;
+  }
 }
