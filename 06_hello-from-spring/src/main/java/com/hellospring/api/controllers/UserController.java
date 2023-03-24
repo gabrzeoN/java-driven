@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hellospring.api.dtos.UserDTO;
 import com.hellospring.api.models.UserModel;
-import com.hellospring.api.repositories.UserRepository;
+import com.hellospring.api.services.UserService;
 
 import jakarta.validation.Valid;
 
@@ -23,45 +23,35 @@ import jakarta.validation.Valid;
 public class UserController {
   
   @Autowired // responsável por criar a instância do repository dentro da classe, assim, podemos chamar os métodos do repository sem ter que instacia-lo usando o new
-  private UserRepository repository;
+  private UserService service;
 
   @GetMapping
   public List<UserModel> listAll(){
-    List<UserModel> users = repository.findAll();
+    List<UserModel> users = service.listAll();
     return users;
   }
 
   @PostMapping
-  public UserModel create(@RequestBody @Valid UserDTO req){ // Valid ativa as validações do DTO
-    UserModel user = repository.save(new UserModel(req));
-    System.out.println(new UserModel(req));
-    System.out.println(req);
+  public UserModel create(@RequestBody @Valid UserDTO dto){ // Valid ativa as validações do DTO
+    UserModel user = service.create(dto);
     return user;
   }
 
   @DeleteMapping
   public void deleteAll(){
-    repository.deleteAll();
+    service.deleteAll();
     return;
   }
 
   @DeleteMapping("/{id}")
   public void delete(@PathVariable Long id){
-    repository.deleteById(id);
+    service.delete(id);
     return;
   }
 
   @PutMapping("/{id}")
-  public void update(@PathVariable Long id, @RequestBody @Valid UserDTO req){
-    repository.findById(id).map(user -> {
-      user.setName(req.name());
-      user.setLastname(req.lastname());
-      user.setEmail(req.email());
-      user.setBirthdate(req.birthdate());
-      user.setPhone(req.phone());
-      UserModel userUpdated = repository.save(user);
-      return userUpdated;
-    });
+  public void update(@PathVariable Long id, @RequestBody @Valid UserDTO dto){
+    service.update(id, dto);
     return;
   }
 }
